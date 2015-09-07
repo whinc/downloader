@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <EditText
+        android:id="@+id/download_url_editText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="http://admin.qfoxtech.com:9006/distribution/download.do?type=QIAO_QIAO_ANDROID"
+        android:autoText="false"
+        />
+    <Button
+        android:id="@+id/download_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Download"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:padding="5dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        >
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:indeterminate="false"
+            android:progress="0"
+            android:max="100"
+            style="@android:style/Widget.ProgressBar.Horizontal"
+            />
+
+        <TextView
+            android:id="@+id/percent_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.00%"
+            android:gravity="center"
+            android:paddingLeft="5dp"
+            />
+    </LinearLayout>
+
+</LinearLayout>
