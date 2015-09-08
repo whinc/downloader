@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven'
 
 android {
     compileSdkVersion 21
@@ -14,6 +15,21 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+artifacts {
+    archives file('downloader.aar')
+}
+
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: "file:///Users/xlw92/.m2/repository")
+            pom.groupId = 'com.whinc'
+            pom.artifactId = 'downloader'
+            pom.version = '0.1.2'
         }
     }
 }

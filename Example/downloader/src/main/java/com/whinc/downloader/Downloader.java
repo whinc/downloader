@@ -1,5 +1,6 @@
 package com.whinc.downloader;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -18,5 +19,5 @@ public interface Downloader<T extends Downloader> {
      * @throws IOException if sdcard cannot access or broken or space is insufficient etc.
      * @throws IllegalArgumentException if url is a illegal format
      */
-    void download(String url, String savePath) throws IOException, IllegalArgumentException;
+    void download(String url, File savePath) throws IOException, IllegalArgumentException;
 }

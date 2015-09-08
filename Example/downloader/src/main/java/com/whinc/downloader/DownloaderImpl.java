@@ -10,14 +10,12 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
 
 import static android.app.DownloadManager.ACTION_DOWNLOAD_COMPLETE;
 import static android.app.DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR;
-import static android.app.DownloadManager.COLUMN_LOCAL_URI;
 import static android.app.DownloadManager.COLUMN_REASON;
 import static android.app.DownloadManager.COLUMN_STATUS;
 import static android.app.DownloadManager.COLUMN_TOTAL_SIZE_BYTES;
@@ -176,15 +174,11 @@ public class DownloaderImpl implements Downloader<DownloaderImpl> {
         return this;
     }
 
-    public void download(String url, String relativePath) throws IOException, IllegalArgumentException {
+    public void download(String url, File saveFile) throws IOException, IllegalArgumentException {
         DownloadManager downloadMgr = (DownloadManager) mContext.getSystemService(Context.DOWNLOAD_SERVICE);
         Request request;
         request = new Request(Uri.parse(url));
-        int lastSlashPos = relativePath.lastIndexOf(File.separator);
-        String prefix = relativePath.substring(0, lastSlashPos + 1);
-        String filename = relativePath.substring(lastSlashPos + 1, relativePath.length());
-        Uri dstUri = Uri.parse("file://" + StorageUtils.createDir(prefix) + filename);
-        request.setDestinationUri(dstUri);
+        request.setDestinationUri(Uri.fromFile(saveFile));
         request.setTitle(mTitle);
         request.setDescription(mDescription);
         if (mNotificationVisible) {

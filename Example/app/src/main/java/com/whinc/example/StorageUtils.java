@@ -1,4 +1,4 @@
-package com.whinc.downloader;
+package com.whinc.example;
 
 import android.os.Environment;
 
@@ -18,15 +18,16 @@ public class StorageUtils {
     }
 
     /**
-     * Create a directory on external storage if it is not exists.<br>
+     * Create a directory which is relative to the external storage public directory
+     * if it is not exists. equal to {@code }<br>
+     *     <pre>Environment.getExternalStorageDirectory().getAbsolutePath() + ['/'] + relativePath</pre>
      *
-     * input "/dir1/dir2/" or "dir1/dir2/" or "dir1/dir2" will
-     * return "path_to_external_dir/dir1/dir2/"<br>
+     * input relative path will add correct prefix '/' if it is needed
      *
      * @param relativePath directory path relative to external storage directory
      * @return created dir absolute path.
      */
-    public static String createDir(String relativePath) throws IOException {
+    public static String createRelativeDir(String relativePath) throws IOException {
         String rootPath = Environment.getExternalStorageDirectory().getAbsolutePath();
         StringBuilder builder = new StringBuilder(rootPath);
         if (rootPath.endsWith(File.separator)) {
@@ -36,9 +37,6 @@ public class StorageUtils {
             builder.append(File.separator);
         }
         builder.append(relativePath);
-        if (!relativePath.endsWith(File.separator)) {
-            builder.append(File.separator);
-        }
 
         String absolutePath = builder.toString();
         File dir = new File(absolutePath);
@@ -46,5 +44,20 @@ public class StorageUtils {
             throw new IOException("Cannot create dir!");
         }
         return absolutePath;
+    }
+
+    /** Create a file in external storage
+     * @param relativePath path relative to <pre>Environment.getExternalStorageDirectory().getAbsolutePath()</pre>
+     * */
+    public static File createRelativeFile(String relativePath) throws IOException {
+        int lastSlashPos = relativePath.lastIndexOf(File.separator);
+        String relativeDir = relativePath.substring(0, lastSlashPos + 1);
+        String filename = relativePath.substring(lastSlashPos + 1, relativePath.length());
+
+        File relativeFile =  new File(createRelativeDir(relativeDir) + filename);
+        if (!relativeFile.exists() && !relativeFile.createNewFile()) {
+            throw new IOException("Cannot create file!");
+        }
+        return relativeFile;
     }
 }
